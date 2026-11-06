@@ -26,8 +26,8 @@ import nuvio.composeapp.generated.resources.jetbrains_sans_regular
 import nuvio.composeapp.generated.resources.jetbrains_sans_semibold
 import org.jetbrains.compose.resources.Font
 
-val LocalAppTheme = staticCompositionLocalOf { AppTheme.WHITE }
-val LocalThemePalette = staticCompositionLocalOf { ThemeColors.White }
+val LocalAppTheme = staticCompositionLocalOf { AppTheme.MULTINUTZ }
+val LocalThemePalette = staticCompositionLocalOf { ThemeColors.MultiNutz }
 
 val MaterialTheme.themePalette: ThemeColorPalette
     @Composable
@@ -216,7 +216,7 @@ internal fun desktopUiScaleForWindow(widthDp: Float, heightDp: Float): Float {
 @Composable
 fun NuvioTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    appTheme: AppTheme = AppTheme.WHITE,
+    appTheme: AppTheme = AppTheme.MULTINUTZ,
     amoled: Boolean = false,
     desktopUiScale: Float = NuvioDesktopMinUiScale,
     customThemeColors: CustomThemeColors = CustomThemeColors.Default,

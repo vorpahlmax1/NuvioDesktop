@@ -15,9 +15,9 @@ class ThemeAccessTest {
     }
 
     @Test
-    fun unavailableSupporterThemeFallsBackToWhite() {
+    fun unavailableSupporterThemeFallsBackToMultiNutz() {
         assertEquals(
-            AppTheme.WHITE,
+            AppTheme.MULTINUTZ,
             resolveAppTheme(AppTheme.JADE, CosmeticEntitlements.None),
         )
     }
@@ -28,6 +28,7 @@ class ThemeAccessTest {
         val themes = availableAppThemes(entitlements)
 
         assertEquals(AppTheme.ROSE_GOLD, themes.first())
+        assertTrue(AppTheme.MULTINUTZ in themes)
         assertTrue(AppTheme.WHITE in themes)
         assertTrue(AppTheme.CRIMSON in themes)
         assertTrue(AppTheme.GOLD !in themes)
@@ -39,7 +40,7 @@ class ThemeAccessTest {
 
         assertEquals(AppTheme.CUSTOM, themes.first())
         assertEquals(AppTheme.CUSTOM, resolveAppTheme(AppTheme.CUSTOM, CosmeticEntitlements.None))
-        assertEquals(AppTheme.WHITE, resolveAppTheme(null, CosmeticEntitlements.None))
+        assertEquals(AppTheme.MULTINUTZ, resolveAppTheme(null, CosmeticEntitlements.None))
     }
 
     @Test
@@ -75,7 +76,7 @@ class ThemeAccessTest {
             CosmeticEntitlements(setOf(CosmeticEntitlement.GOLD_THEME)),
         )
 
-        assertEquals(listOf(AppTheme.GOLD, AppTheme.CUSTOM, AppTheme.WHITE), themes.take(3))
+        assertEquals(listOf(AppTheme.GOLD, AppTheme.CUSTOM, AppTheme.MULTINUTZ), themes.take(3))
         assertEquals(themes.size, themes.distinct().size)
     }
 }

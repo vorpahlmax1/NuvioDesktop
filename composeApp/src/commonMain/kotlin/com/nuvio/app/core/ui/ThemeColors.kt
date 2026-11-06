@@ -104,6 +104,26 @@ object ThemeColors {
         backgroundCard = Color(0xFF20242A),
     )
 
+    /** MultiNutz default: industrial graphite + cool broadcast steel. */
+    val MultiNutz = ThemeColorPalette(
+        secondary = Color(0xFF7FA8BE),
+        secondaryVariant = Color(0xFF4E7A93),
+        accentGradient = listOf(
+            Color(0xFF9FC4D4),
+            Color(0xFF7FA8BE),
+            Color(0xFF5B8499),
+            Color(0xFF3E5F73),
+        ),
+        nativeAccentHex = "#7FA8BE",
+        onSecondary = Color(0xFF0B0E12),
+        onSecondaryVariant = Color(0xFFF2F5F7),
+        focusRing = Color(0xFFB7D3E0),
+        focusBackground = Color(0xFF1A2A35),
+        background = Color(0xFF0A0C10),
+        backgroundElevated = Color(0xFF141820),
+        backgroundCard = Color(0xFF1B222C),
+    )
+
     val Crimson = ThemeColorPalette(
         secondary = Color(0xFFE53935),
         secondaryVariant = Color(0xFFC62828),
@@ -193,6 +213,7 @@ object ThemeColors {
         AppTheme.ROSE_GOLD -> RoseGold
         AppTheme.ARCTIC_BLUE -> ArcticBlue
         AppTheme.GRAPHITE -> Graphite
+        AppTheme.MULTINUTZ -> MultiNutz
         AppTheme.CRIMSON -> Crimson
         AppTheme.OCEAN -> Ocean
         AppTheme.VIOLET -> Violet
