@@ -383,6 +383,7 @@ private class DesktopStubPlayerController : PlayerEngineController {
     override fun seekBy(offsetMs: Long) = Unit
     override fun retry() = Unit
     override fun setPlaybackSpeed(speed: Float) = Unit
+    override fun setMuted(muted: Boolean) = Unit
     override fun getAudioTracks(): List<AudioTrack> = emptyList()
     override fun getSubtitleTracks(): List<SubtitleTrack> = emptyList()
     override fun applyAudioLanguagePreferences(languages: List<String>) = Unit

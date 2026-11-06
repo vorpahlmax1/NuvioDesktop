@@ -114,6 +114,8 @@ internal class NativePlayerController(
     private var controlsState = PlayerControlsState()
     @Volatile
     private var currentVolumeLevel = rememberedVolumeLevel.coerceDesktopPlayerVolumeLevel()
+    @Volatile
+    private var mutedOverride: Boolean = false
     private var pendingSubtitleDelayMs: Int? = null
     private var pendingSubtitleStyle: SubtitleStyleState? = null
     private var pendingUseLibass: Boolean = false
@@ -670,6 +672,13 @@ internal class NativePlayerController(
     private fun applyRememberedVolume() {
         val current = handle
         if (current == 0L) return
+        if (mutedOverride) {
+            currentVolumeLevel = 0f
+            NativePlayerBridge.setVolume(current, 0f)
+            controlsState = controlsState.copy(volumeLevel = 0f)
+            log.d { "applied muted override handle=$current" }
+            return
+        }
         val level = rememberedVolumeLevel.coerceDesktopPlayerVolumeLevel()
         currentVolumeLevel = level
         NativePlayerBridge.setVolume(current, level)
@@ -988,6 +997,17 @@ internal class NativePlayerController(
     override fun setPlaybackSpeed(speed: Float) {
         log.d { "setPlaybackSpeed speed=$speed handle=$handle" }
         handle.takeIf { it != 0L }?.let { NativePlayerBridge.setSpeed(it, speed) }
+    }
+
+    override fun setMuted(muted: Boolean) {
+        mutedOverride = muted
+        val current = handle
+        if (current == 0L) return
+        if (muted) {
+            setTemporaryVolume(0f)
+        } else {
+            applyRememberedVolume()
+        }
     }
 
     override fun getAudioTracks(): List<AudioTrack> =
