@@ -2,6 +2,7 @@ package com.nuvio.app.features.settings
 
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.rounded.Groups
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ internal fun LazyListScope.settingsRootContent(
     onPageClick: (SettingsPage) -> Unit,
     onSwitchProfileClick: (() -> Unit)? = null,
     onWatchPartyClick: (() -> Unit)? = null,
+    onMultiViewerClick: (() -> Unit)? = null,
     showNotificationsEntry: Boolean = true,
     category: SettingsCategory? = null,
 ) {
@@ -78,6 +80,16 @@ internal fun LazyListScope.settingsRootContent(
                             isTablet = isTablet,
                             onPageClick = onPageClick,
                         )
+                        if (onMultiViewerClick != null) {
+                            SettingsGroupDivider(isTablet = isTablet)
+                            SettingsNavigationRow(
+                                title = stringResource(Res.string.multiview_title),
+                                description = stringResource(Res.string.multiview_settings_description),
+                                icon = Icons.Default.GridView,
+                                isTablet = isTablet,
+                                onClick = onMultiViewerClick,
+                            )
+                        }
                     }
                     SettingsCategory.Services -> {
                         SettingsPageRow(

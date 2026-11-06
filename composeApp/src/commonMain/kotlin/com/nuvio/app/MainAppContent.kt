@@ -332,7 +332,7 @@ internal fun MainAppContent(
     }.collectAsStateWithLifecycle()
     var visiblePlayerEntries by remember { mutableIntStateOf(0) }
     var streamLandscapeLoadingVisible by remember(currentRoute) { mutableStateOf(false) }
-    if (currentRoute is PlayerRoute || visiblePlayerEntries > 0 || streamLandscapeLoadingVisible) {
+    if (currentRoute is PlayerRoute || currentRoute is MultiViewerRoute || visiblePlayerEntries > 0 || streamLandscapeLoadingVisible) {
         LockPlayerToLandscape()
         HidePlayerSystemBars()
     }
@@ -382,6 +382,7 @@ internal fun MainAppContent(
     val newCollectionTitle = stringResource(Res.string.collections_new)
     val detailsFallbackTitle = stringResource(Res.string.meta_section_details_title)
     val watchPartyTitle = stringResource(Res.string.party_title)
+    val multiViewerTitle = stringResource(Res.string.multiview_title)
     val isRemoteLibrarySource = libraryUiState.sourceMode != LibrarySourceMode.LOCAL
     val appContentGeneration = if (ownsAppRuntime && appGateController != null) {
         val generation by appGateController.contentGeneration.collectAsStateWithLifecycle()
@@ -731,14 +732,14 @@ internal fun MainAppContent(
         if (!ownsAppRuntime) return@LaunchedEffect
         if (!initialHomeReady || profileSwitchLoading) return@LaunchedEffect
         if (resumePromptItem != null) return@LaunchedEffect
-        if (currentRoute is StreamRoute || currentRoute is PlayerRoute || currentRoute is PartyRoute) return@LaunchedEffect
+        if (currentRoute is StreamRoute || currentRoute is PlayerRoute || currentRoute is PartyRoute || currentRoute is MultiViewerRoute) return@LaunchedEffect
         if (continueWatchingPreferencesUiState.showResumePromptOnLaunch) {
             resumePromptItem = ResumePromptRepository.consumeResumePrompt()
         }
     }
 
     LaunchedEffect(currentRoute) {
-        val inPlaybackFlow = currentRoute is StreamRoute || currentRoute is PlayerRoute || currentRoute is PartyRoute
+        val inPlaybackFlow = currentRoute is StreamRoute || currentRoute is PlayerRoute || currentRoute is PartyRoute || currentRoute is MultiViewerRoute
         if (inPlaybackFlow) {
             resumePromptItem = null
         }
@@ -1519,6 +1520,7 @@ internal fun MainAppContent(
                                 },
                                 onCollectionsSettingsClick = { navController.navigate(CollectionsRoute(collectionsTitle)) },
                                 onWatchPartySettingsClick = { navController.navigate(PartyRoute(title = watchPartyTitle)) },
+                                onMultiViewerSettingsClick = { navController.navigate(MultiViewerRoute(title = multiViewerTitle)) },
                                 onFolderClick = { collectionId, folderId ->
                                     val folderTitle = CollectionRepository.collections.value
                                         .firstOrNull { it.id == collectionId }
@@ -1724,6 +1726,12 @@ internal fun MainAppContent(
                             onWatch = ::openPartyMedia,
                         )
                     }
+                }
+                entry<MultiViewerRoute> { route ->
+                    MultiViewerDestination(
+                        route = route,
+                        navController = navController,
+                    )
                 }
                 entry<AccountSettingsRoute> { route ->
                     SettingsDestination(route, navController) { onBack ->
@@ -2189,7 +2197,7 @@ internal fun MainAppContent(
 
 private fun AppRoute?.drawsUnderVerticalBar(selectedTab: AppScreenTab): Boolean =
     when (this) {
-        is DetailRoute, is StreamRoute, is PlayerRoute -> true
+        is DetailRoute, is StreamRoute, is PlayerRoute, is MultiViewerRoute -> true
         is TabsRoute -> selectedTab == AppScreenTab.Home || selectedTab == AppScreenTab.Library
         else -> false
     }
