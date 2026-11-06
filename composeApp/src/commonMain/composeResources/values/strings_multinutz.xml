@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="theme_multinutz">MultiNutz</string>
+    <string name="home_brand_headline">Your media. One board.</string>
+    <string name="home_brand_support">Resume what you left — discover more — Multiview when you need more than one stream.</string>
+    <string name="home_cta_continue">Continue Watching</string>
+    <string name="home_cta_multiview">Multiview</string>
+    <string name="home_whats_on_title">What\'s on</string>
+    <string name="home_empty_first_run_title">Start your MultiNutz hub</string>
+    <string name="home_empty_first_run_message">Add an addon or connect a media server, then play something from Library. Multiview is in Settings → Watch when you want multiple streams.</string>
+</resources>

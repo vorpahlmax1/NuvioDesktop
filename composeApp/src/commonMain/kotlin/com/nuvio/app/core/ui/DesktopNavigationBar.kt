@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -58,8 +59,13 @@ internal fun DesktopNavigationBar(
         animationSpec = tween(320, easing = FastOutSlowInEasing),
         label = "desktop_nav_labels",
     )
+    val tokens = MaterialTheme.nuvio
     val surfaceColor by animateColorAsState(
-        targetValue = if (isFrosted) Color(0xFF1C1C1E).copy(alpha = 0.30f) else Color(0xFF0F0F11).copy(alpha = 0.20f),
+        targetValue = if (isFrosted) {
+            tokens.colors.surfaceElevated.copy(alpha = 0.42f)
+        } else {
+            tokens.colors.background.copy(alpha = 0.28f)
+        },
         animationSpec = tween(320, easing = FastOutSlowInEasing),
         label = "desktop_nav_surface",
     )

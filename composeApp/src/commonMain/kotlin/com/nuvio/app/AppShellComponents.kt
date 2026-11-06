@@ -249,6 +249,7 @@ internal fun AppTabHost(
                         onContinueWatchingLongPress = actions.onContinueWatchingLongPress,
                         continueWatchingDisintegrationRequest = state.continueWatchingDisintegrationRequest,
                         onFolderClick = actions.onFolderClick,
+                        onMultiViewerClick = actions.onMultiViewerSettingsClick,
                         onFirstCatalogRendered = actions.onInitialHomeContentRendered,
                     )
                 }
