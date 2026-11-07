@@ -1402,11 +1402,20 @@ fun publishWindowsMsiOutput(release: Boolean) {
 
     val distributionName = if (release) "main-release" else "main"
     val outputDir = layout.buildDirectory.dir("compose/binaries/$distributionName/msi").get().asFile
-    val finalMsi = outputDir.resolve("Nuvio-Windows-$windowsPlayerBridgeArch-$desktopReleaseVersionName.msi")
-    val defaultMsi = outputDir.resolve("Nuvio-$desktopReleasePackageVersion.msi")
-    val sourceMsi = defaultMsi.takeIf { it.exists() }
-        ?: finalMsi.takeIf { it.exists() }
-        ?: error("Expected Windows MSI output in ${outputDir.absolutePath}")
+    val finalMsi = outputDir.resolve("MultiNutz-Windows-$windowsPlayerBridgeArch-$desktopReleaseVersionName.msi")
+    // jpackage names the MSI from packageName + packageVersion (MultiNutz).
+    // Keep legacy Nuvio-* as a fallback for older checkouts / mixed trees.
+    val candidateMsIs = listOf(
+        outputDir.resolve("MultiNutz-$desktopReleasePackageVersion.msi"),
+        outputDir.resolve("Nuvio-$desktopReleasePackageVersion.msi"),
+        finalMsi,
+        outputDir.resolve("Nuvio-Windows-$windowsPlayerBridgeArch-$desktopReleaseVersionName.msi"),
+    )
+    val sourceMsi = candidateMsIs.firstOrNull { it.exists() }
+        ?: error(
+            "Expected Windows MSI output in ${outputDir.absolutePath}. " +
+                "Looked for: ${candidateMsIs.joinToString { it.name }}"
+        )
 
     if (sourceMsi.canonicalFile != finalMsi.canonicalFile) {
         sourceMsi.copyTo(finalMsi, overwrite = true)

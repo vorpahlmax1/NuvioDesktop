@@ -55,11 +55,21 @@ Build a release package for the current host:
 
 For platform-specific packaging:
 
-Windows PowerShell:
+Windows PowerShell (MSI + portable zip; needs JDK 17, WiX 3.x, WebView2 SDK):
 
 ```powershell
+.\scripts\package-windows.ps1 -WebView2Root "C:\path\to\Microsoft.Web.WebView2.<version>"
+# or:
 .\gradlew.bat :composeApp:packageReleaseMsi --rerun-tasks
 ```
+
+Outputs land under:
+
+- `composeApp/build/compose/release-msis/MultiNutz-Windows-x64-<version>.msi`
+- `composeApp/build/compose/release-zips/MultiNutz-Windows-x64-<version>.zip`
+- raw jpackage tree: `composeApp/build/compose/binaries/...`
+
+CI also builds Windows artifacts via `.github/workflows/windows-package.yml` (Actions → download, or push a `v*` / `multinutz*` tag for a Release).
 
 macOS:
 
